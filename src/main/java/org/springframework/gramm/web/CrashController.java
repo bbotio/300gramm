@@ -31,5 +31,10 @@ public class CrashController {
                 "happens when an exception is thrown");
     }
 
+    @RequestMapping("/")
+    public String globalTest(){
+        System.out.println("------------------------ test-------------------------");
+        return "welcome";
+    }
 
 }

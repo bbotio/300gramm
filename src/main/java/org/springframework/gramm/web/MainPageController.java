@@ -15,20 +15,24 @@
  */
 package org.springframework.gramm.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  */
 @Controller
-public class Page2Controller {
+@RequestMapping("/")
+public class MainPageController {
 
-    @RequestMapping("/page2.html")
+    @RequestMapping(method = RequestMethod.GET)
     public String globalTest(){
         System.out.println("------------------------ test-------------------------");
         return "welcome";
     }
-
 }

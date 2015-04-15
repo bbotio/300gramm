@@ -72,8 +72,4 @@
         -->
         <context:component-scan base-package="org.springframework.gramm.repository.jpa"/>
     </beans>
-
-    <beans profile="spring-data-jpa">
-        <jpa:repositories base-package="org.springframework.gramm.repository.springdatajpa"/>
-    </beans>
 </beans>

@@ -6,7 +6,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
 
     <display-name>300gramm</display-name>
-    <description>300gramm</description>
+    <description>300gramm application</description>
     
     <context-param>
         <param-name>spring.profiles.active</param-name>

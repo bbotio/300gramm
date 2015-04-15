@@ -19,8 +19,7 @@
     <!--
         - POJOs labeled with the @Controller and @Service annotations are auto-detected.
     -->
-    <context:component-scan
-            base-package="org.springframework.gramm.web"/>
+    <context:component-scan base-package="org.springframework.gramm.web"/>
 
     <!--  all resources inside folder src/main/webapp/resources are mapped so they can be refered to inside JSP files
         (see header.jsp for more details) -->
@@ -39,7 +38,7 @@
     <mvc:default-servlet-handler />
 
     <!--
-        - Message source for this context, loaded from localized "messages_xx" files.
+        - Message source for this conte            xt, loaded from localized "messages_xx" files.
         - Files are stored inside src/main/resources
     -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
