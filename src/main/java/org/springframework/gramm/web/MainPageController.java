@@ -27,10 +27,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 @Controller
-@RequestMapping("/")
 public class MainPageController {
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping("/")
     public String globalTest(){
         System.out.println("------------------------ test-------------------------");
         return "welcome";

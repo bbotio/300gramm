@@ -19,7 +19,10 @@
     <!--
         - POJOs labeled with the @Controller and @Service annotations are auto-detected.
     -->
-    <context:component-scan base-package="org.springframework.gramm.web"/>
+    <context:component-scan
+            base-package="org.springframework.gramm.web"/>
+
+    <mvc:annotation-driven conversion-service="conversionService"/>
 
     <!--  all resources inside folder src/main/webapp/resources are mapped so they can be refered to inside JSP files
         (see header.jsp for more details) -->
@@ -29,23 +32,23 @@
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 
     <mvc:view-controller path="/" view-name="welcome" />
-    <mvc:view-controller path="/page1.html" view-name="page1/page1" />
-    <mvc:view-controller path="/page2.html" view-name="page2/page2" />
-    <mvc:view-controller path="/page3.html" view-name="page3/page3" />
 
-    <!-- serve static resources (*.html, ...) from src/main/webapp/
+    <!-- serve static resources (*.html, ...) from src/main/webapp/ 
     Required when both servlet-mapping is '/' and static resources need to be served -->
     <mvc:default-servlet-handler />
 
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    </bean>
+
     <!--
-        - Message source for this conte            xt, loaded from localized "messages_xx" files.
+        - Message source for this context, loaded from localized "messages_xx" files.
         - Files are stored inside src/main/resources
     -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
           p:basename="messages/messages"/>
 
     <!--
-        - This bean resolves specific types of exceptions to corresponding logical
+        - This bean resolves specific types of exceptions to corresponding logical 
         - view names for error views.
     -->
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
