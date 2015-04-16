@@ -28,7 +28,7 @@ public class Page2Controller {
     @RequestMapping("/page2.html")
     public String globalTest(){
         System.out.println("------------------------ test-------------------------");
-        return "welcome";
+        return "page2/page2";
     }
 
 }

@@ -28,6 +28,6 @@ public class Page1Controller {
     @RequestMapping("/page1.html")
     public String globalTest(){
         System.out.println("------------------------ test-------------------------");
-        return "welcome";
+        return "page1/page1";
     }
 }

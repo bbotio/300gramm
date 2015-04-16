@@ -4,9 +4,8 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -16,7 +15,7 @@
     <import resource="datasource-config.xml"/>
 
     <context:component-scan
-            base-package="org.springframework.samples.petclinic.service"/>
+            base-package="org.springframework.gramm.service"/>
 
     <!-- Configurer that replaces ${...} placeholders with values from a properties file -->
     <!-- (in this case, JDBC-related settings for the JPA EntityManager definition below) -->
@@ -24,13 +23,6 @@
 
     <!-- enables scanning for @Transactional annotations -->
     <tx:annotation-driven />
-
-
-    <!-- ==================		 3 Profiles to choose from 			===================
-                                    - jdbc (uses Spring" JdbcTemplate)
-                                    - jpa
-                                    - spring-data-jpa
-          =============================================================================-->
 
     <beans profile="jpa,spring-data-jpa">
         <!-- JPA EntityManagerFactory -->
@@ -46,7 +38,7 @@
                  -->
             </property>
             <!-- gDickens: BOTH Persistence Unit and Packages to Scan are NOT compatible, persistenceUnit will win -->
-            <property name="persistenceUnitName" value="petclinic"/>
+            <property name="persistenceUnitName" value="300gramm"/>
             <property name="packagesToScan" value="org.springframework.gramm"/>
         </bean>
 
