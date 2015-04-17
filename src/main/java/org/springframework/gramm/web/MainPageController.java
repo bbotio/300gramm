@@ -16,18 +16,22 @@
 package org.springframework.gramm.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  */
 @Controller
-public class CrashController {
+public class MainPageController {
 
-    @RequestMapping(value = "/oups", method = RequestMethod.GET)
-    public String triggerException() {
-        throw new RuntimeException("Expected: controller used to showcase what " +
-                "happens when an exception is thrown");
+    @RequestMapping("/")
+    public String globalTest(){
+        System.out.println("------------------------ test-------------------------");
+        return "welcome";
     }
 }

@@ -1,7 +1,7 @@
 
 /**
  *
- * The classes in this package represent PetClinic's web presentation layer.
+ * Some text should be here
  *
  */
 package org.springframework.gramm.web;
