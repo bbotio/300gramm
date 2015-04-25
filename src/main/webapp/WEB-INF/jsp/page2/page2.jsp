@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
@@ -10,7 +9,8 @@
 
 <body>
 <div class="container">
-    <jsp:include page="../fragments/bodyHeader.jsp"/>
+    <jsp:include page="../fragments/banner.jsp"/>
+    <jsp:include page="../fragments/mainNavigation.jsp"/>
     <h2><fmt:message key="welcome"/></h2>
     <p>This is page 2</p>
     <jsp:include page="../fragments/footer.jsp"/>

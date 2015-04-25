@@ -16,8 +16,13 @@
 package org.springframework.gramm.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.gramm.util.InstagramUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -25,9 +30,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class Page1Controller {
 
-    @RequestMapping("/page1.html")
-    public String globalTest(){
-        System.out.println("------------------------ test-------------------------");
+    @RequestMapping("/page1")
+    public String page1Controller(HttpServletRequest request, HttpServletResponse response,
+                                  Model model){
+
+        if (!InstagramUtils.isLogged(request)){
+            return "redirect:/login";
+        }
+
         return "page1/page1";
     }
 }

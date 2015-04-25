@@ -59,7 +59,7 @@
 
 
 		<!-- Web dependencies -->
-		<webjars-bootstrap.version>2.3.0</webjars-bootstrap.version>
+		<webjars-bootstrap.version>3.3.4</webjars-bootstrap.version>
 		<webjars-jquery-ui.version>1.10.3</webjars-jquery-ui.version>
 		<webjars-jquery.version>2.0.3-1</webjars-jquery.version>
 		<dandelion.version>0.10.1</dandelion.version>
@@ -69,6 +69,12 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.sachinhandiekar</groupId>
+			<artifactId>jInstagram</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.jadira.usertype</groupId>
 			<artifactId>usertype.core</artifactId>

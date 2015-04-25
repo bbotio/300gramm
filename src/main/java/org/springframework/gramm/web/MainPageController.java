@@ -15,23 +15,41 @@
  */
 package org.springframework.gramm.web;
 
+import org.jinstagram.Instagram;
+import org.jinstagram.entity.users.basicinfo.UserInfoData;
+import org.jinstagram.exceptions.InstagramException;
+import org.springframework.gramm.Constants;
+import org.springframework.gramm.util.InstagramUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- */
 @Controller
 public class MainPageController {
 
-    @RequestMapping("/")
-    public String globalTest(){
-        System.out.println("------------------------ test-------------------------");
-        return "welcome";
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String mainPageController(HttpServletRequest request,
+                                     HttpServletResponse response, Model model) throws InstagramException{
+
+        if (!InstagramUtils.isLogged(request)){
+            return "redirect:/login";
+        }
+
+        // set user object to view
+        HttpSession session = request.getSession();
+        Object objInstagram = session.getAttribute(Constants.INSTAGRAM_OBJECT);
+        Instagram instagram = (Instagram) objInstagram;
+
+        UserInfoData userInfoData = instagram.getCurrentUserInfo().getData();
+        model.addAttribute("user", userInfoData);
+
+        return "main";
     }
+
+
 }
