@@ -7,8 +7,8 @@
 <jsp:include page="fragments/staticFiles.jsp"/>
 
 <body>
-<div class="container">
-    <jsp:include page="fragments/bodyHeader.jsp"/>
+<div class="miniContainer">
+    <jsp:include page="fragments/banner.jsp"/>
     <h2>Something happened...</h2>
 
     <p>${exception.message}</p>

@@ -1,31 +1,26 @@
+.miniContainer {
+    top: 50%;
+    left: 50%;
+    width: 450px;
+    position: absolute;
+    margin-left: -225px;
+    margin-top: -180px;
+}
+
 .container {
     padding-top: 0px;
     width: 900px;
     margin: 0 auto;
 }
 
-.form-horizontal {
+.banner {
     width: 100%;
+    height: auto;
 }
 
-input[type="text"] {
-    height: 25px;
-}
-
-.navbar .nav {
-    width: 100%;
-}
-
-.navbar .nav li {
-    width: 25%;
-}
-
-.navbar .nav > li > a {
-    color: #000000;
-}
-
-.form-horizontal .control-label {
-    text-align: left;
+div#bs-example-navbar-collapse-1 {
+    border-radius: 7px;
+    border: 1px solid rgb(51, 146, 225);
 }
 
 .footer {

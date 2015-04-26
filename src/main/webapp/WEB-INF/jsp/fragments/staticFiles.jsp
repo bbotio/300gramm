@@ -9,11 +9,11 @@ PetClinic :: a Spring Framework demonstration
     <title>300gramm :: 300gramm</title>
 
 
-    <spring:url value="/webjars/bootstrap/2.3.0/css/bootstrap.min.css" var="bootstrapCss"/>
+    <spring:url value="/webjars/bootstrap/3.3.4/css/bootstrap.min.css" var="bootstrapCss"/>
     <link href="${bootstrapCss}" rel="stylesheet"/>
 
-    <spring:url value="/resources/css/style.css" var="petclinicCss"/>
-    <link href="${petclinicCss}" rel="stylesheet"/>
+    <spring:url value="/resources/css/style.css" var="customStyles"/>
+    <link href="${customStyles}" rel="stylesheet"/>
 
     <spring:url value="/webjars/jquery/2.0.3/jquery.js" var="jQuery"/>
     <script src="${jQuery}"></script>
@@ -27,7 +27,7 @@ PetClinic :: a Spring Framework demonstration
     
     <!-- jquery-ui.css file is not that big so we can afford to load it -->
     <spring:url value="/webjars/jquery-ui/1.10.3/themes/base/jquery-ui.css" var="jQueryUiCss"/>
-    <link href="${jQueryUiCss}" rel="stylesheet"></link>
+    <link href="${jQueryUiCss}" rel="stylesheet"/>
 </head>
 
 
