@@ -1,11 +1,14 @@
 # 300gramm Application
 
--JDK 7
+**Requirements**
+* JKD 8
+* H2 or any other DB
 
-Database - MySQL:
-  settings file: /300gramm/src/main/resources/spring/data-access.properties
-    url=jdbc:mysql://localhost:3306/300grammDB
-    username=root
-    password=password
+**Settings**
+* driverClassName = org.h2.Driver
+* url = jdbc:h2:file:<path-to-db>
+* username = root
+* password = root
 
-Homepage - http://localhost:9966/300gramm/
+**Homepage**
+http://localhost:8080/
