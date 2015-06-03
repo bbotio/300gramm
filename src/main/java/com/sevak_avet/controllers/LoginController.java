@@ -98,7 +98,7 @@ public class LoginController {
 
             AutoApprove autoApprove = new AutoApprove();
             autoApprove.setUserName(userData.getUsername());
-            autoApprove.setPeriod(LocalTime.of(23, 59));
+            autoApprove.setPeriod(12);
             autoApproveDao.save(autoApprove);
         } else {
             user.setToken(accessToken);
