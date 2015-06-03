@@ -55,7 +55,7 @@ public class ApproveController {
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
         User user = userDao.getUserInfo(userData.getUsername());
         if(user.isAutoApproveEnabled()) {
-            LocalTime period = autoApproveDao.getUserPeriod(user);
+            Integer period = autoApproveDao.getUserPeriod(user);
             params.addAttribute("approvePeriod", period);
         }
 
@@ -89,7 +89,7 @@ public class ApproveController {
     @RequestMapping(params = "saveNewPeriod", method = RequestMethod.POST)
     public String saveNewPeriod(@RequestParam("approvePeriod") String time, HttpSession session) throws InstagramException {
         Instagram instagram = (Instagram) session.getAttribute("instagram");
-        LocalTime localTime = LocalTime.parse(time);
+        Integer localTime = Integer.parseInt(time);
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
 
         User user = userDao.getUserInfo(userData.getUsername());
