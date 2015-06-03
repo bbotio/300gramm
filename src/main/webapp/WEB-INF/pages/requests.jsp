@@ -33,10 +33,8 @@
 
         <form method="post">
             <label>
-                Approve every: <input type="text"
-                                      required="required"
-                                      pattern="^(?!00:00)([0-2][0-3]:[0-5][0-9])"
-                                      title="00:01 - 23:59"
+                Approve every: <input type="number"
+                                      min="12"
                                       name="approvePeriod"
                                       value="${approvePeriod}"/>
             </label>
