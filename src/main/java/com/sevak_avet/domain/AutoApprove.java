@@ -20,7 +20,7 @@ public class AutoApprove {
     private String username;
 
     @Column(name="period")
-    private LocalTime period;
+    private Integer period;
 
     public Integer getId() {
         return id;
@@ -38,11 +38,11 @@ public class AutoApprove {
         this.username = username;
     }
 
-    public LocalTime getPeriod() {
+    public Integer getPeriod() {
         return period;
     }
 
-    public void setPeriod(LocalTime period) {
+    public void setPeriod(Integer period) {
         this.period = period;
     }
 

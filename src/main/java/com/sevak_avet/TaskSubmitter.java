@@ -39,14 +39,13 @@ public class TaskSubmitter {
     private static Map<String, ScheduledFuture<?>> tasks = new HashMap<>();
     private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    public void submitTask(User user, LocalTime time) {
-        long period = time.getMinute() + time.getHour() * 60;
+    public void submitTask(User user, Integer time) {
         ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(() -> {
             try {
                 Instagram instagram = new Instagram(user.getToken());
                 List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
 
-                log.info("APPROVING FOR USER " + instagram.getCurrentUserInfo() + " EVERY " + period + "min (" + time + ")");
+                log.info("APPROVING FOR USER " + instagram.getCurrentUserInfo() + " EVERY " + time + " hours");
 
                 for (UserFeedData userFeedData : userRequestedBy) {
                     instagram.setUserRelationship(userFeedData.getId(), Relationship.APPROVE);
@@ -55,7 +54,7 @@ public class TaskSubmitter {
             } catch (InstagramException e) {
                 e.printStackTrace();
             }
-        }, 0, period, TimeUnit.MINUTES);
+        }, 0, time, TimeUnit.HOURS);
 
         tasks.put(user.getUsername(), future);
     }
@@ -69,7 +68,7 @@ public class TaskSubmitter {
     public void init() {
         List<User> allUsersInfo = userDao.getAllUsersInfo();
         allUsersInfo.stream().filter(User::isAutoApproveEnabled).forEach(user -> {
-            LocalTime period = autoApproveDao.getUserPeriod(user);
+            Integer period = autoApproveDao.getUserPeriod(user);
             submitTask(user, period);
         });
     }

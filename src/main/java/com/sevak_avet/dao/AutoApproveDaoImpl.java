@@ -43,7 +43,7 @@ public class AutoApproveDaoImpl implements AutoApproveDao {
     }
 
     @Override
-    public LocalTime getUserPeriod(User user) {
+    public Integer getUserPeriod(User user) {
         AutoApprove autoApprove = getAutoApprove(user);
         if (autoApprove != null) {
             return autoApprove.getPeriod();

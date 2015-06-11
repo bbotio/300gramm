@@ -15,7 +15,7 @@ public interface AutoApproveDao {
 
     AutoApprove getAutoApprove(String username);
 
-    LocalTime getUserPeriod(User user);
+    Integer getUserPeriod(User user);
 
     void save(AutoApprove autoApprove);
 
