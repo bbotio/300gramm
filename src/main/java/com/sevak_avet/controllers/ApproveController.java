@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -66,6 +65,9 @@ public class ApproveController {
             params.addAttribute("users", userRequestedBy);
         }
 
+        params.addAttribute("visibility", "hidden");
+        params.addAttribute("errorMessage", "ERROR!!");
+
         return "requests";
     }
 
@@ -87,21 +89,47 @@ public class ApproveController {
     }
 
     @RequestMapping(params = "saveNewPeriod", method = RequestMethod.POST)
-    public String saveNewPeriod(@RequestParam("approvePeriod") String time, HttpSession session) throws InstagramException {
+    public String saveNewPeriod(@RequestParam("approvePeriod") String time, HttpSession session, ModelMap params) throws InstagramException {
         Instagram instagram = (Instagram) session.getAttribute("instagram");
-        Integer localTime = Integer.parseInt(time);
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
 
-        User user = userDao.getUserInfo(userData.getUsername());
-        AutoApprove autoApprove = autoApproveDao.getAutoApprove(user);
-        autoApprove.setPeriod(localTime);
-        autoApproveDao.update(autoApprove);
+        Integer localTime;
+        try {
+            localTime = Integer.parseInt(time);
+        } catch (NumberFormatException e) {
+            params.addAttribute("approvePeriod", time);
+            showErrorMessage(params, instagram);
+            return "requests";
+        }
 
-        log.info("OLD TASK CANCELED FOR USER " + user.getUsername());
+        if(localTime >= 12) {
+            User user = userDao.getUserInfo(userData.getUsername());
+            AutoApprove autoApprove = autoApproveDao.getAutoApprove(user);
+            autoApprove.setPeriod(localTime);
+            autoApproveDao.update(autoApprove);
 
-        taskSubmitter.cancel(user);
-        taskSubmitter.submitTask(user, autoApprove.getPeriod());
+            log.info("OLD TASK CANCELED FOR USER " + user.getUsername());
+
+            taskSubmitter.cancel(user);
+            taskSubmitter.submitTask(user, autoApprove.getPeriod());
+        } else {
+            params.addAttribute("approvePeriod", time);
+            showErrorMessage(params, instagram);
+            return "requests";
+        }
 
         return "redirect:requests";
+    }
+
+    private void showErrorMessage(ModelMap params, Instagram instagram) throws InstagramException {
+        params.addAttribute("visibility", "visible");
+        params.addAttribute("errorMessage", "Enter approve period in hours. Must be >= 12.");
+
+        List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
+        if (userRequestedBy.isEmpty()) {
+            params.addAttribute("haveNoUsersRequestedBy", "You have no users to accept!");
+        } else {
+            params.addAttribute("users", userRequestedBy);
+        }
     }
 }

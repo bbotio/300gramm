@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="common/header.jsp"/>
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -32,13 +33,26 @@
         </div>
 
         <form method="post">
-            <label>
-                Approve every: <input type="number"
-                                      min="12"
-                                      name="approvePeriod"
-                                      value="${approvePeriod}"/>
-            </label>
-            <button type="submit" name="saveNewPeriod">Save</button>
+            <table>
+                <tr>
+                    <td style="padding-right: 10px">
+                        <label>
+                            Approve every: <input type="number"
+                                                  min="12"
+                                                  name="approvePeriod"
+                                                  value="${approvePeriod}"/>
+                        </label>
+                    </td>
+                    <td>
+                        <span class="label label-danger" style="visibility: ${visibility}; align-content: center">${errorMessage}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="saveNewPeriod">Save</button>
+                    </td>
+                </tr>
+            </table>
         </form>
         <hr>
 
@@ -52,10 +66,12 @@
             <p class="lead"><img src="${user.profilePictureUrl}"/> <br/>
 
             <p><b>Username:</b> ${user.userName}</p>
+
             <p><b>Full Name:</b> ${user.fullName}</p>
 
             <form method="post">
                 <input type="hidden" name="userId" value="${user.id}"/>
+
                 <p>
                     <button type="submit" name="btnApprove">Approve</button>
                 </p>
