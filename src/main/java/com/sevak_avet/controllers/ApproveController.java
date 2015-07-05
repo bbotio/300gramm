@@ -1,6 +1,6 @@
 package com.sevak_avet.controllers;
 
-import com.sevak_avet.TaskSubmitter;
+import com.sevak_avet.scheduler.ApproveTaskSubmitter;
 import com.sevak_avet.dao.AutoApproveDao;
 import com.sevak_avet.dao.UserDao;
 import com.sevak_avet.domain.AutoApprove;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +40,7 @@ public class ApproveController {
     private AutoApproveDao autoApproveDao;
 
     @Autowired
-    private TaskSubmitter taskSubmitter;
+    private ApproveTaskSubmitter approveTaskSubmitter;
 
     @RequestMapping(method = RequestMethod.GET)
     public String get(HttpSession session, ModelMap params) throws InstagramException {
@@ -124,8 +123,8 @@ public class ApproveController {
 
             log.info("OLD TASK CANCELED FOR USER " + user.getUsername());
 
-            taskSubmitter.cancel(user);
-            taskSubmitter.submitTask(user, autoApprove.getPeriod());
+            approveTaskSubmitter.cancel(user);
+            approveTaskSubmitter.submitTask(user, autoApprove.getPeriod());
         } else {
             params.addAttribute("approvePeriod", time);
             showErrorMessage(params, instagram);

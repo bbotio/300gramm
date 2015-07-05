@@ -1,4 +1,4 @@
-package com.sevak_avet;
+package com.sevak_avet.scheduler;
 
 import com.sevak_avet.dao.AutoApproveDao;
 import com.sevak_avet.dao.UserDao;
@@ -11,7 +11,6 @@ import org.jinstagram.model.Relationship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +26,8 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Component
-public class TaskSubmitter {
-    private static Logger log = Logger.getLogger(TaskSubmitter.class.getName());
+public class ApproveTaskSubmitter {
+    private static Logger log = Logger.getLogger(ApproveTaskSubmitter.class.getName());
 
     @Autowired
     private UserDao userDao;
@@ -36,8 +35,13 @@ public class TaskSubmitter {
     @Autowired
     private AutoApproveDao autoApproveDao;
 
-    private static Map<String, ScheduledFuture<?>> tasks = new HashMap<>();
-    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private static final Map<String, ScheduledFuture<?>> tasks;
+    private static final ScheduledExecutorService scheduler;
+
+    static {
+        tasks = new HashMap<>();
+        scheduler = Executors.newScheduledThreadPool(1);
+    }
 
     public void submitTask(User user, Integer time) {
         ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(() -> {
@@ -45,11 +49,11 @@ public class TaskSubmitter {
                 Instagram instagram = new Instagram(user.getToken());
                 List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
 
-                log.info("APPROVING FOR USER " + instagram.getCurrentUserInfo() + " EVERY " + time + " hours");
+                log.info("Approving for user " + instagram.getCurrentUserInfo() + " every " + time + " hours");
 
                 for (UserFeedData userFeedData : userRequestedBy) {
                     instagram.setUserRelationship(userFeedData.getId(), Relationship.APPROVE);
-                    log.info("APPROVED: " + userFeedData);
+                    log.info("Approved: " + userFeedData);
                 }
             } catch (InstagramException e) {
                 e.printStackTrace();
@@ -60,7 +64,7 @@ public class TaskSubmitter {
     }
 
     public void cancel(User user) {
-        if(tasks.containsKey(user.getUsername())) {
+        if (tasks.containsKey(user.getUsername())) {
             tasks.get(user.getUsername()).cancel(false);
         }
     }

@@ -39,8 +39,15 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
+    <!--DAO-->
     <bean name="userDao" class="com.sevak_avet.dao.impl.UserDaoImpl"/>
     <bean name="autoApproveDao" class="com.sevak_avet.dao.impl.AutoApproveDaoImpl"/>
     <bean name="antiSpamDao" class="com.sevak_avet.dao.impl.AntiSpamDaoImpl"/>
-    <bean name="taskSumbitter" class="com.sevak_avet.TaskSubmitter" init-method="init"/>
+
+    <!--TaskSubmitters-->
+    <bean class="com.sevak_avet.scheduler.ApproveTaskSubmitter" init-method="init"/>
+
+    <!--TODO: uncomment this bean, when done antispam logic
+    <bean class="com.sevak_avet.scheduler.AntiSpamTaskSubmitter" init-method="init"/>-->
+
 </beans>
