@@ -1,5 +1,6 @@
-package com.sevak_avet.dao;
+package com.sevak_avet.dao.impl;
 
+import com.sevak_avet.dao.UserDao;
 import com.sevak_avet.domain.User;
 import org.hibernate.Query;
 import org.hibernate.Session;

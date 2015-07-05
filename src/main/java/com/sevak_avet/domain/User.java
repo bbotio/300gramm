@@ -14,18 +14,15 @@ import javax.persistence.*;
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name="id")
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name="token", length = 500)
+    @Column(name = "token", nullable = false, length = 500)
     private Token token;
-
-    @Column(name="is_autoapprove_enabled")
-    private Boolean isAutoApproveEnabled;
 
     public Integer getId() {
         return id;
@@ -51,14 +48,6 @@ public class User {
         this.token = token;
     }
 
-    public Boolean isAutoApproveEnabled() {
-        return isAutoApproveEnabled;
-    }
-
-    public void setIsAutoApproveEnabled(Boolean isAutoApproveEnabled) {
-        this.isAutoApproveEnabled = isAutoApproveEnabled;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,7 +55,6 @@ public class User {
 
         User user = (User) o;
 
-        if (isAutoApproveEnabled != user.isAutoApproveEnabled) return false;
         if (!id.equals(user.id)) return false;
         if (!username.equals(user.username)) return false;
         return token.equals(user.token);
@@ -78,7 +66,6 @@ public class User {
         int result = id.hashCode();
         result = 31 * result + username.hashCode();
         result = 31 * result + token.hashCode();
-        result = 31 * result + (isAutoApproveEnabled ? 1 : 0);
         return result;
     }
 
@@ -86,9 +73,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", isAutoApproveEnabled=" + isAutoApproveEnabled +
-                '}';
+                ", username='" + username + '}';
     }
 
 }

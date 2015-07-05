@@ -1,5 +1,6 @@
-package com.sevak_avet.dao;
+package com.sevak_avet.dao.impl;
 
+import com.sevak_avet.dao.AutoApproveDao;
 import com.sevak_avet.domain.AutoApprove;
 import com.sevak_avet.domain.User;
 import org.hibernate.Query;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -49,6 +49,15 @@ public class AutoApproveDaoImpl implements AutoApproveDao {
             return autoApprove.getPeriod();
         }
         return null;
+    }
+
+    @Override
+    public Boolean isAutoApproveEnabled(User user) {
+        AutoApprove autoApprove = getAutoApprove(user);
+        if(autoApprove != null) {
+            return autoApprove.isAutoApproveEnabled();
+        }
+        return false;
     }
 
     @Override
