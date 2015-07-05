@@ -43,7 +43,7 @@ public class ApproveController {
     private TaskSubmitter taskSubmitter;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String request(HttpSession session, ModelMap params) throws InstagramException {
+    public String get(HttpSession session, ModelMap params) throws InstagramException {
         log.info("--------- REQUESTS GET");
 
         Instagram instagram = (Instagram) session.getAttribute("instagram");
@@ -53,7 +53,8 @@ public class ApproveController {
 
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
         User user = userDao.getUserInfo(userData.getUsername());
-        if(user.isAutoApproveEnabled()) {
+
+        if(autoApproveDao.isAutoApproveEnabled(user)) {
             Integer period = autoApproveDao.getUserPeriod(user);
             params.addAttribute("approvePeriod", period);
         }
@@ -66,8 +67,6 @@ public class ApproveController {
         }
 
         params.addAttribute("visibility", "hidden");
-        params.addAttribute("errorMessage", "ERROR!!");
-
         return "requests";
     }
 

@@ -25,6 +25,7 @@
             <list>
                 <value>com.sevak_avet.domain.User</value>
                 <value>com.sevak_avet.domain.AutoApprove</value>
+                <value>com.sevak_avet.domain.AntiSpam</value>
             </list>
         </property>
         <property name="hibernateProperties" ref="hibernateProperties"/>
@@ -38,7 +39,8 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
-    <bean name="userDao" class="com.sevak_avet.dao.UserDaoImpl"/>
-    <bean name="autoApproveDao" class="com.sevak_avet.dao.AutoApproveDaoImpl"/>
+    <bean name="userDao" class="com.sevak_avet.dao.impl.UserDaoImpl"/>
+    <bean name="autoApproveDao" class="com.sevak_avet.dao.impl.AutoApproveDaoImpl"/>
+    <bean name="antiSpamDao" class="com.sevak_avet.dao.impl.AntiSpamDaoImpl"/>
     <bean name="taskSumbitter" class="com.sevak_avet.TaskSubmitter" init-method="init"/>
 </beans>

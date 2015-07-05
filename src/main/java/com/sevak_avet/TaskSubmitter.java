@@ -67,7 +67,7 @@ public class TaskSubmitter {
 
     public void init() {
         List<User> allUsersInfo = userDao.getAllUsersInfo();
-        allUsersInfo.stream().filter(User::isAutoApproveEnabled).forEach(user -> {
+        allUsersInfo.stream().filter(autoApproveDao::isAutoApproveEnabled).forEach(user -> {
             Integer period = autoApproveDao.getUserPeriod(user);
             submitTask(user, period);
         });

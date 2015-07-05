@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.LocalTime;
 
 /**
  * Created by Avetisyan Sevak
@@ -92,12 +91,12 @@ public class LoginController {
         if (user == null) {
             user = new User();
             user.setUsername(userData.getUsername());
-            user.setIsAutoApproveEnabled(true);
             user.setToken(accessToken);
             userDao.save(user);
 
             AutoApprove autoApprove = new AutoApprove();
             autoApprove.setUserName(userData.getUsername());
+            autoApprove.setAutoApproveEnabled(true);
             autoApprove.setPeriod(12);
             autoApproveDao.save(autoApprove);
         } else {

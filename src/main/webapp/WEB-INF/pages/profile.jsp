@@ -16,6 +16,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="profile">Profile</a></li>
                 <li><a href="requests">Requests</a></li>
+                <li><a href="antispam">Antispam</a></li>
                 <li><a href="logout">Logout</a></li>
             </ul>
         </div>
