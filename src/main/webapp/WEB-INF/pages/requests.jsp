@@ -14,7 +14,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">300gramm</a>
+            <a class="navbar-brand" href="profile">300gramm</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -30,10 +30,19 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Requests</h1>
+            <h1 class="page-header">Approve requests</h1>
         </div>
 
-        <form method="post">
+
+        <form method="post" action="requests">
+            <div class="checkbox">
+                <label>
+                    <input type="hidden" id="_chbox_1" name="isAutoApproveEnabled"/>
+                    <input type="checkbox" id="chbox_1" name="isAutoApproveEnabled" value="true" ${isAutoApproveEnabled}/>
+                    Auto-approve enabled
+                </label>
+            </div>
+
             <table>
                 <tr>
                     <td style="padding-right: 10px">
@@ -50,7 +59,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <button type="submit" name="saveNewPeriod">Save</button>
+                        <button type="submit" name="saveAutoApprove">Save</button>
                     </td>
                 </tr>
             </table>

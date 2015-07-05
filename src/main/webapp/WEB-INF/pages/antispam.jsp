@@ -14,7 +14,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">300gramm</a>
+            <a class="navbar-brand" href="profile">300gramm</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -30,7 +30,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Requests</h1>
+            <h1 class="page-header">Antispam</h1>
         </div>
 
         <form method="post">

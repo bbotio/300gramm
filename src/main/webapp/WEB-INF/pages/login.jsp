@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h2>Simplest way for Instagram auto-approving & anti-spam!</h2>
+        <h2>Simplest way for Instagram auto-approve & anti-spam!</h2>
         <p><a href="${authorizationUrl}"><img src="${pageContext.request.contextPath}/resources/images/instagram.png"/></a>
         </p>
     </div>

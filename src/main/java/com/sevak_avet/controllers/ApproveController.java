@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,7 @@ import java.util.List;
 @Scope("session")
 @RequestMapping("/requests")
 public class ApproveController {
-    private static Logger log = Logger.getLogger(ApproveController.class.getName());
+    private static Logger log = Logger.getLogger(ApproveController.class);
 
     @Autowired
     private UserDao userDao;
@@ -54,9 +55,13 @@ public class ApproveController {
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
         User user = userDao.getUserInfo(userData.getUsername());
 
+        Integer period = autoApproveDao.getUserPeriod(user);
+        params.addAttribute("approvePeriod", period);
+
         if(autoApproveDao.isAutoApproveEnabled(user)) {
-            Integer period = autoApproveDao.getUserPeriod(user);
-            params.addAttribute("approvePeriod", period);
+            params.addAttribute("isAutoApproveEnabled", "checked");
+        } else {
+            params.addAttribute("isAutoApproveEnabled", "");
         }
 
         List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
@@ -87,10 +92,20 @@ public class ApproveController {
         return "redirect:requests";
     }
 
-    @RequestMapping(params = "saveNewPeriod", method = RequestMethod.POST)
-    public String saveNewPeriod(@RequestParam("approvePeriod") String time, HttpSession session, ModelMap params) throws InstagramException {
+    @RequestMapping(params = "saveAutoApprove", method = RequestMethod.POST)
+    public String saveNewPeriod(@RequestParam("approvePeriod") String time,
+                                @RequestParam("isAutoApproveEnabled") String isAutoApproveEnabled,
+                                HttpSession session, ModelMap params) throws InstagramException {
         Instagram instagram = (Instagram) session.getAttribute("instagram");
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
+
+        AutoApprove autoApprove = autoApproveDao.getAutoApprove(userData.getUsername());
+        if(isAutoApproveEnabled.isEmpty()) {
+            autoApprove.setAutoApproveEnabled(false);
+        } else {
+            autoApprove.setAutoApproveEnabled(true);
+        }
+        autoApproveDao.update(autoApprove);
 
         Integer localTime;
         try {
@@ -103,7 +118,7 @@ public class ApproveController {
 
         if(localTime >= 12) {
             User user = userDao.getUserInfo(userData.getUsername());
-            AutoApprove autoApprove = autoApproveDao.getAutoApprove(user);
+
             autoApprove.setPeriod(localTime);
             autoApproveDao.update(autoApprove);
 
