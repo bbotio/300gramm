@@ -24,10 +24,9 @@
 </nav>
 
 <div class="container">
+
     <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">User Profile</h1>
-        </div>
+        <h1 class="page-header"><span class="label label-default">User Profile</span></h1>
 
         <p class="lead"><img src="${picture}"/> <br/>
         <p><b>Username:</b> ${username}</p>
