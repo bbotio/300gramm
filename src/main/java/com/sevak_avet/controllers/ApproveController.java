@@ -111,6 +111,11 @@ public class ApproveController {
             localTime = Integer.parseInt(time);
         } catch (NumberFormatException e) {
             params.addAttribute("approvePeriod", time);
+            if(autoApprove.isAutoApproveEnabled()) {
+                params.addAttribute("isAutoApproveEnabled", "checked");
+            } else {
+                params.addAttribute("isAutoApproveEnabled", "");
+            }
             showErrorMessage(params, instagram);
             return "requests";
         }
