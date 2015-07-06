@@ -33,8 +33,7 @@
             <h1 class="page-header">Approve requests</h1>
         </div>
 
-
-        <form method="post" action="requests">
+        <form method="post">
             <div class="checkbox">
                 <label>
                     <input type="hidden" id="_chbox_1" name="isAutoApproveEnabled"/>
