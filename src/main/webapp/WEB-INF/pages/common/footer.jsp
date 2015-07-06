@@ -11,10 +11,14 @@
 <!-- /.container -->
 
 <!-- jQuery Version 1.11.0 -->
-<script src="http://startbootstrap.com/templates/thumbnail-gallery/js/jquery-1.11.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="http://startbootstrap.com/templates/thumbnail-gallery/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap Tag Input -->
+<script src="../../../resources/js/bootstrap-tagsinput.min.js"></script>
+<script src="../../../resources/js/bootstrap-tagsinput-angular.min.js"></script>
 
 </body>
 
