@@ -30,10 +30,10 @@
         </div>
 
         <p class="lead"><img src="${picture}"/> <br/>
-        <p>Username: ${username}</p>
-        <p>Full Name: ${fullname}</p>
-        <p>Follows: ${follows}</p>
-        <p>Followed by: ${followedBy}</p>
+        <p><b>Username:</b> ${username}</p>
+        <p><b>Full Name:</b> ${fullname}</p>
+        <p><b>Follows:</b> <span class="badge">${follows}</span></p>
+        <p><b>Followed by:</b> <span class="badge">${followedBy}</span></p>
     </div>
     <hr>
 

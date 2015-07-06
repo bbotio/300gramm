@@ -30,56 +30,28 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Antispam</h1>
+            <h1 class="page-header">Anti-Spam settings</h1>
         </div>
 
-        <form method="post">
-            <table>
-                <tr>
-                    <td style="padding-right: 10px">
-                        <label>
-                            Approve every: <input type="number"
-                                                  min="12"
-                                                  name="approvePeriod"
-                                                  value="${approvePeriod}"/>
-                        </label>
-                    </td>
-                    <td>
-                        <span class="label label-danger"
-                              style="visibility: ${visibility}; align-content: center">${errorMessage}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit" name="saveNewPeriod">Save</button>
-                    </td>
-                </tr>
-            </table>
+
+        <form method="post" action="requests">
+            <div class="checkbox">
+                <label>
+                    <input type="hidden" id="_chbox_1" name="isAntiSpamEnabled"/>
+                    <input type="checkbox" id="chbox_1" name="isAntiSpamEnabled" value="true" ${isAntiSpamEnabled}/>
+                    Anti-spam enabled
+                </label>
+            </div>
+
+
+            <div class="form-group">
+                <label for="badWords">Bad words:</label>
+                <textarea class="form-control" rows="3" id="badWords"></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary" name="saveAntiSpam">Save</button>
         </form>
         <hr>
-
-        <form method="post">
-            <button type="submit" name="btnApproveAll">Approve all</button>
-        </form>
-        <hr>
-
-        <p>${haveNoUsersRequestedBy}</p>
-        <c:forEach items="${users}" var="user">
-            <p class="lead"><img src="${user.profilePictureUrl}"/> <br/>
-
-            <p><b>Username:</b> ${user.userName}</p>
-
-            <p><b>Full Name:</b> ${user.fullName}</p>
-
-            <form method="post">
-                <input type="hidden" name="userId" value="${user.id}"/>
-
-                <p>
-                    <button type="submit" name="btnApprove">Approve</button>
-                </p>
-            </form>
-            <p></p>
-        </c:forEach>
     </div>
     <hr>
 

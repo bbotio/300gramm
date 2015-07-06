@@ -57,38 +57,32 @@
                         <span class="label label-danger" style="visibility: ${visibility}; align-content: center">${errorMessage}</span>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <button type="submit" name="saveAutoApprove">Save</button>
-                    </td>
-                </tr>
             </table>
+
+            <button type="submit" class="btn btn-primary" name="saveAutoApprove">Save</button>
         </form>
         <hr>
 
         <form method="post">
-            <button type="submit" name="btnApproveAll">Approve all</button>
+            <button type="submit" class="btn btn-primary" name="btnApproveAll">Approve all</button>
         </form>
         <hr>
 
         <p>${haveNoUsersRequestedBy}</p>
         <c:forEach items="${users}" var="user">
             <p class="lead"><img src="${user.profilePictureUrl}"/> <br/>
-
             <p><b>Username:</b> ${user.userName}</p>
-
             <p><b>Full Name:</b> ${user.fullName}</p>
 
             <form method="post">
                 <input type="hidden" name="userId" value="${user.id}"/>
 
                 <p>
-                    <button type="submit" name="btnApprove">Approve</button>
+                    <button type="submit" class="btn btn-primary" name="btnApprove">Approve</button>
                 </p>
             </form>
             <p></p>
         </c:forEach>
-
     </div>
     <hr>
 
