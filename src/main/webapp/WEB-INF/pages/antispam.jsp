@@ -33,8 +33,7 @@
             <h1 class="page-header">Anti-Spam settings</h1>
         </div>
 
-
-        <form method="post" action="requests">
+        <form method="post">
             <div class="checkbox">
                 <label>
                     <input type="hidden" id="_chbox_1" name="isAntiSpamEnabled"/>
@@ -43,15 +42,17 @@
                 </label>
             </div>
 
-
             <div class="form-group">
                 <label for="badWords">Bad words:</label>
-                <textarea class="form-control" rows="3" id="badWords"></textarea>
+                <input type="text" id="badWords"
+                       value="${badWordsList}"
+                       data-role="tagsinput"
+                       name="badWordsList"
+                       placeholder="Add bad words"/>
             </div>
 
-            <button type="button" class="btn btn-primary" name="saveAntiSpam">Save</button>
+            <button type="submit" class="btn btn-primary" name="saveAntiSpam">Save</button>
         </form>
-        <hr>
     </div>
     <hr>
 
