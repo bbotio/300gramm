@@ -24,14 +24,8 @@ public class LogoutController {
     public String logout(HttpSession session) {
         log.info("------------ LOGOUT GET");
 
-        Instagram instagram = (Instagram) session.getAttribute("instagram");
-
-        if (instagram == null) {
-            return "redirect:login";
-        }
-
         session.removeAttribute("instagram");
         session.removeAttribute("instagram_service");
-        return "logout";
+        return "redirect:login";
     }
 }
