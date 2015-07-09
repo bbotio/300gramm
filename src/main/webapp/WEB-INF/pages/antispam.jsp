@@ -34,13 +34,22 @@
         </div>
 
         <form method="post">
-            <div class="checkbox">
-                <label>
-                    <input type="hidden" id="_chbox_1" name="isAntiSpamEnabled"/>
-                    <input type="checkbox" id="chbox_1" name="isAntiSpamEnabled" value="true" ${isAntiSpamEnabled}/>
-                    Anti-spam enabled
-                </label>
-            </div>
+            <table>
+                <tr>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                <input type="hidden" id="_chbox_1" name="isAntiSpamEnabled"/>
+                                <input type="checkbox" id="chbox_1" name="isAntiSpamEnabled" value="true" ${isAntiSpamEnabled}/>
+                                Anti-spam enabled
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="label label-danger" style="visibility: ${visibility}; align-content: center">${errorMessage}</span>
+                    </td>
+                </tr>
+            </table>
 
             <div class="form-group">
                 <label for="badWords">Bad words:</label>
