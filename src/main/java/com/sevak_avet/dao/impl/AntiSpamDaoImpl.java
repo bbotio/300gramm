@@ -2,21 +2,23 @@ package com.sevak_avet.dao.impl;
 
 import com.sevak_avet.dao.AntiSpamDao;
 import com.sevak_avet.domain.AntiSpam;
-import com.sevak_avet.domain.AutoApprove;
 import com.sevak_avet.domain.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
  * Created by savetisyan on 05.07.15.
  */
+@Repository
+@Transactional
 public class AntiSpamDaoImpl implements AntiSpamDao {
     @Autowired
     private SessionFactory sessionFactory;
@@ -43,7 +45,7 @@ public class AntiSpamDaoImpl implements AntiSpamDao {
     @Override
     public Set<String> getBadWords(User user) {
         AntiSpam antiSpam = getAntiSpam(user.getUsername());
-        if(antiSpam != null) {
+        if (antiSpam != null) {
             return antiSpam.getBadWords();
         }
         return Collections.emptySet();
@@ -52,7 +54,7 @@ public class AntiSpamDaoImpl implements AntiSpamDao {
     @Override
     public Boolean isAntiSpamEnabled(User user) {
         AntiSpam antiSpam = getAntiSpam(user.getUsername());
-        if(antiSpam != null) {
+        if (antiSpam != null) {
             return antiSpam.isAntiSpamEnabled();
         }
         return false;

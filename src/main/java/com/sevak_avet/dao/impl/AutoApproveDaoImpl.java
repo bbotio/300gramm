@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * Date: 15.05.2015
  * Time: 11:08
  */
-@Component
+@Repository
 @Transactional
 public class AutoApproveDaoImpl implements AutoApproveDao {
     @Autowired
