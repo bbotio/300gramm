@@ -76,7 +76,7 @@ public class LoginController {
                 .apiKey(CLIENT_ID)
                 .apiSecret(SECRET)
                 .callback(URL)
-                .scope("relationships")
+                .scope("relationships comments")
                 .build();
 
         session.setAttribute("instagram_service", service);
