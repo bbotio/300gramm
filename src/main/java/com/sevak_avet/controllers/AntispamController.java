@@ -4,6 +4,7 @@ import com.sevak_avet.dao.AntiSpamDao;
 import com.sevak_avet.dao.UserDao;
 import com.sevak_avet.domain.AntiSpam;
 import com.sevak_avet.scheduler.ApproveTaskSubmitter;
+import com.sevak_avet.scheduler.MorphologyHelper;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.jinstagram.Instagram;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+
+import static com.sevak_avet.scheduler.MorphologyHelper.isCyrillicWord;
+import static com.sevak_avet.scheduler.MorphologyHelper.isLatinWord;
 
 /**
  * Created by savetisyan on 05.07.15.
@@ -94,7 +98,7 @@ public class AntispamController {
         String[] split = Arrays.stream(badWordsList.split(","))
                 .map(String::toLowerCase)
                 .flatMap(x -> Arrays.stream(x.split(" +")))
-                .filter(x -> x.matches("[A-Za-z]+") || x.matches("[А-Яа-яЁё]+"))
+                .filter(x -> isCyrillicWord(x) || isLatinWord(x))
                 .toArray(String[]::new);
 
         antiSpam.setBadWords(new HashSet<>(Arrays.asList(split)));
