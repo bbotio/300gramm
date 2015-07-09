@@ -21,7 +21,7 @@ public class User {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "token", nullable = false, length = 500)
+    @Column(name = "token", length = 500)
     private Token token;
 
     public Integer getId() {
