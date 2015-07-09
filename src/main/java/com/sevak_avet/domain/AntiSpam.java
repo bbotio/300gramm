@@ -10,15 +10,15 @@ import java.util.Set;
 @Table(name = "anti_spam")
 public class AntiSpam {
     @Id
-    @Column(name="id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name="username", nullable = false)
+    @Column(name = "username", nullable = false)
     private String username;
 
     @ElementCollection
-    @Column(name="bad_words", nullable = false)
+    @Column(name = "bad_words", nullable = false)
     private Set<String> badWords;
 
     @Column(name = "is_antispam_enabled", nullable = false)
