@@ -34,15 +34,24 @@
         </div>
 
         <form method="post">
+            <div class="checkbox">
+                <label>
+                    <input type="hidden" id="_chbox_1" name="isAntiSpamEnabled"/>
+                    <input type="checkbox" id="chbox_1" name="isAntiSpamEnabled" value="true" ${isAntiSpamEnabled}/>
+                    Anti-spam enabled
+                </label>
+            </div>
+
             <table>
                 <tr>
-                    <td>
-                        <div class="checkbox">
-                            <label>
-                                <input type="hidden" id="_chbox_1" name="isAntiSpamEnabled"/>
-                                <input type="checkbox" id="chbox_1" name="isAntiSpamEnabled" value="true" ${isAntiSpamEnabled}/>
-                                Anti-spam enabled
-                            </label>
+                    <td style="padding-right: 10px;">
+                        <div class="form-group" style="margin: auto;">
+                            <label for="badWords">Bad words:</label>
+                            <input style="margin:auto;" type="text" id="badWords"
+                                   value="${badWordsList}"
+                                   data-role="tagsinput"
+                                   name="badWordsList"
+                                   placeholder="Add bad words"/>
                         </div>
                     </td>
                     <td>
@@ -50,15 +59,6 @@
                     </td>
                 </tr>
             </table>
-
-            <div class="form-group">
-                <label for="badWords">Bad words:</label>
-                <input type="text" id="badWords"
-                       value="${badWordsList}"
-                       data-role="tagsinput"
-                       name="badWordsList"
-                       placeholder="Add bad words"/>
-            </div>
 
             <button type="submit" class="btn btn-primary" name="saveAntiSpam">Save</button>
         </form>
