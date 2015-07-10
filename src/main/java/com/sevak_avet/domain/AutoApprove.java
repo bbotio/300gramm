@@ -12,15 +12,18 @@ import java.time.LocalTime;
 @Table(name = "auto_approve")
 public class AutoApprove {
     @Id
-    @Column(name="id")
+    @Column(name="id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name="username")
+    @Column(name="username", nullable = false)
     private String username;
 
-    @Column(name="period")
+    @Column(name="period", nullable = false)
     private Integer period;
+
+    @Column(name = "is_autoapprove_enabled", nullable = false)
+    private Boolean isAutoApproveEnabled;
 
     public Integer getId() {
         return id;
@@ -46,25 +49,12 @@ public class AutoApprove {
         this.period = period;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AutoApprove that = (AutoApprove) o;
-
-        if (!id.equals(that.id)) return false;
-        if (!username.equals(that.username)) return false;
-        return period.equals(that.period);
-
+    public Boolean isAutoApproveEnabled() {
+        return isAutoApproveEnabled;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + period.hashCode();
-        return result;
+    public void setAutoApproveEnabled(Boolean isAutoApproveEnabled) {
+        this.isAutoApproveEnabled = isAutoApproveEnabled;
     }
 
     @Override
@@ -74,5 +64,28 @@ public class AutoApprove {
                 ", userName='" + username + '\'' +
                 ", period=" + period +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AutoApprove that = (AutoApprove) o;
+
+        if (!id.equals(that.id)) return false;
+        if (!username.equals(that.username)) return false;
+        if (!period.equals(that.period)) return false;
+        return isAutoApproveEnabled.equals(that.isAutoApproveEnabled);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + period.hashCode();
+        result = 31 * result + isAutoApproveEnabled.hashCode();
+        return result;
     }
 }

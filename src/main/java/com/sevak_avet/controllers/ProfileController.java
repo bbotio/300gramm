@@ -3,6 +3,7 @@ package com.sevak_avet.controllers;
 import org.apache.log4j.Logger;
 import org.jinstagram.Instagram;
 import org.jinstagram.entity.users.basicinfo.UserInfoData;
+import org.jinstagram.entity.users.feed.UserFeedData;
 import org.jinstagram.exceptions.InstagramException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by Avetisyan Sevak
@@ -31,6 +33,9 @@ public class ProfileController {
         if (instagram == null) {
             return "redirect:login";
         }
+
+        List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
+        params.addAttribute("requestedCount", userRequestedBy.isEmpty() ? "" : userRequestedBy.size());
 
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
         params.addAttribute("picture", userData.getProfile_picture());

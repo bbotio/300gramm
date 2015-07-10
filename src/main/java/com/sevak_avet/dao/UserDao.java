@@ -9,12 +9,8 @@ import java.util.List;
  * Date: 5/11/15
  * Time: 5:59 PM
  */
-public interface UserDao {
+public interface UserDao extends AbstractDao<User> {
     User getUserInfo(String username);
-
-    void save(User info);
-
-    void update(User newInfo);
 
     List<User> getAllUsersInfo();
 }

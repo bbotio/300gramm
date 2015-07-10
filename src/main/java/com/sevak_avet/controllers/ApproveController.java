@@ -1,6 +1,6 @@
 package com.sevak_avet.controllers;
 
-import com.sevak_avet.TaskSubmitter;
+import com.sevak_avet.scheduler.ApproveTaskSubmitter;
 import com.sevak_avet.dao.AutoApproveDao;
 import com.sevak_avet.dao.UserDao;
 import com.sevak_avet.domain.AutoApprove;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ import java.util.List;
 @Scope("session")
 @RequestMapping("/requests")
 public class ApproveController {
-    private static Logger log = Logger.getLogger(ApproveController.class.getName());
+    private static Logger log = Logger.getLogger(ApproveController.class);
 
     @Autowired
     private UserDao userDao;
@@ -41,10 +40,10 @@ public class ApproveController {
     private AutoApproveDao autoApproveDao;
 
     @Autowired
-    private TaskSubmitter taskSubmitter;
+    private ApproveTaskSubmitter approveTaskSubmitter;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String request(HttpSession session, ModelMap params) throws InstagramException {
+    public String get(HttpSession session, ModelMap params) throws InstagramException {
         log.info("--------- REQUESTS GET");
 
         Instagram instagram = (Instagram) session.getAttribute("instagram");
@@ -54,18 +53,26 @@ public class ApproveController {
 
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
         User user = userDao.getUserInfo(userData.getUsername());
-        if(user.isAutoApproveEnabled()) {
-            Integer period = autoApproveDao.getUserPeriod(user);
-            params.addAttribute("approvePeriod", period);
+
+        Integer period = autoApproveDao.getUserPeriod(user);
+        params.addAttribute("approvePeriod", period);
+
+        if(autoApproveDao.isAutoApproveEnabled(user)) {
+            params.addAttribute("isAutoApproveEnabled", "checked");
+        } else {
+            params.addAttribute("isAutoApproveEnabled", "");
         }
 
         List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
+        params.addAttribute("requestedCount", userRequestedBy.isEmpty() ? "" : userRequestedBy.size());
+
         if (userRequestedBy.isEmpty()) {
             params.addAttribute("haveNoUsersRequestedBy", "You have no users to accept!");
         } else {
             params.addAttribute("users", userRequestedBy);
         }
 
+        params.addAttribute("visibility", "hidden");
         return "requests";
     }
 
@@ -86,22 +93,63 @@ public class ApproveController {
         return "redirect:requests";
     }
 
-    @RequestMapping(params = "saveNewPeriod", method = RequestMethod.POST)
-    public String saveNewPeriod(@RequestParam("approvePeriod") String time, HttpSession session) throws InstagramException {
+    @RequestMapping(params = "saveAutoApprove", method = RequestMethod.POST)
+    public String saveNewPeriod(@RequestParam("approvePeriod") String time,
+                                @RequestParam("isAutoApproveEnabled") String isAutoApproveEnabled,
+                                HttpSession session, ModelMap params) throws InstagramException {
         Instagram instagram = (Instagram) session.getAttribute("instagram");
-        Integer localTime = Integer.parseInt(time);
         UserInfoData userData = instagram.getCurrentUserInfo().getData();
 
-        User user = userDao.getUserInfo(userData.getUsername());
-        AutoApprove autoApprove = autoApproveDao.getAutoApprove(user);
-        autoApprove.setPeriod(localTime);
+        AutoApprove autoApprove = autoApproveDao.getAutoApprove(userData.getUsername());
+        if(isAutoApproveEnabled.isEmpty()) {
+            autoApprove.setAutoApproveEnabled(false);
+        } else {
+            autoApprove.setAutoApproveEnabled(true);
+        }
         autoApproveDao.update(autoApprove);
 
-        log.info("OLD TASK CANCELED FOR USER " + user.getUsername());
+        Integer localTime;
+        try {
+            localTime = Integer.parseInt(time);
+        } catch (NumberFormatException e) {
+            params.addAttribute("approvePeriod", time);
+            if(autoApprove.isAutoApproveEnabled()) {
+                params.addAttribute("isAutoApproveEnabled", "checked");
+            } else {
+                params.addAttribute("isAutoApproveEnabled", "");
+            }
+            showErrorMessage(params, instagram);
+            return "requests";
+        }
 
-        taskSubmitter.cancel(user);
-        taskSubmitter.submitTask(user, autoApprove.getPeriod());
+        if(localTime >= 12) {
+            User user = userDao.getUserInfo(userData.getUsername());
+
+            autoApprove.setPeriod(localTime);
+            autoApproveDao.update(autoApprove);
+
+            log.info("OLD TASK CANCELED FOR USER " + user.getUsername());
+
+            approveTaskSubmitter.cancel(user);
+            approveTaskSubmitter.submitTask(user, autoApprove.getPeriod());
+        } else {
+            params.addAttribute("approvePeriod", time);
+            showErrorMessage(params, instagram);
+            return "requests";
+        }
 
         return "redirect:requests";
+    }
+
+    private void showErrorMessage(ModelMap params, Instagram instagram) throws InstagramException {
+        params.addAttribute("visibility", "visible");
+        params.addAttribute("errorMessage", "Enter approve period in hours. Must be >= 12.");
+
+        List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
+        if (userRequestedBy.isEmpty()) {
+            params.addAttribute("haveNoUsersRequestedBy", "You have no users to accept!");
+        } else {
+            params.addAttribute("users", userRequestedBy);
+        }
     }
 }

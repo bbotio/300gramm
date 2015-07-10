@@ -1,9 +1,13 @@
 package com.sevak_avet.controllers;
 
+import com.sevak_avet.dao.AntiSpamDao;
 import com.sevak_avet.dao.AutoApproveDao;
 import com.sevak_avet.dao.UserDao;
+import com.sevak_avet.domain.AntiSpam;
 import com.sevak_avet.domain.AutoApprove;
 import com.sevak_avet.domain.User;
+import com.sevak_avet.scheduler.AntiSpamTaskSubmitter;
+import com.sevak_avet.scheduler.ApproveTaskSubmitter;
 import org.apache.log4j.Logger;
 import org.jinstagram.Instagram;
 import org.jinstagram.auth.InstagramAuthService;
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.LocalTime;
+import java.util.HashSet;
 
 /**
  * Created by Avetisyan Sevak
@@ -33,7 +37,7 @@ import java.time.LocalTime;
 @Scope("session")
 @RequestMapping("/login")
 public class LoginController {
-    private static Logger log = Logger.getLogger(LogoutController.class.getName());
+    private static Logger log = Logger.getLogger(LoginController.class.getName());
 
     @Value("${client_id}")
     private String CLIENT_ID;
@@ -50,6 +54,15 @@ public class LoginController {
     @Autowired
     private AutoApproveDao autoApproveDao;
 
+    @Autowired
+    private AntiSpamDao antiSpamDao;
+
+    @Autowired
+    private ApproveTaskSubmitter approveTaskSubmitter;
+
+    @Autowired
+    private AntiSpamTaskSubmitter antiSpamTaskSubmitter;
+
     @RequestMapping(method = RequestMethod.GET)
     public String login(HttpSession session, ModelMap params) {
         log.info("---------- LOGIN GET");
@@ -63,20 +76,20 @@ public class LoginController {
                 .apiKey(CLIENT_ID)
                 .apiSecret(SECRET)
                 .callback(URL)
-                .scope("relationships")
+                .scope("relationships comments")
                 .build();
 
         session.setAttribute("instagram_service", service);
         String authorizationUrl = service.getAuthorizationUrl(null);
         params.addAttribute("authorizationUrl", authorizationUrl);
-        return "login";
+        return "/login";
     }
 
     @RequestMapping(value = "/handleToken")
     public String handleToken(HttpSession session, HttpServletRequest request) throws InstagramException {
         String code = request.getParameter("code");
         if (code == null) {
-            return "redirect:login";
+            return "redirect:/login";
         }
 
         InstagramService service = (InstagramService) session.getAttribute("instagram_service");
@@ -92,17 +105,42 @@ public class LoginController {
         if (user == null) {
             user = new User();
             user.setUsername(userData.getUsername());
-            user.setIsAutoApproveEnabled(true);
             user.setToken(accessToken);
             userDao.save(user);
 
             AutoApprove autoApprove = new AutoApprove();
             autoApprove.setUserName(userData.getUsername());
+            autoApprove.setAutoApproveEnabled(true);
             autoApprove.setPeriod(12);
             autoApproveDao.save(autoApprove);
-        } else {
+
+            HashSet<String> badWords = new HashSet<>();
+            badWords.add("the");
+            badWords.add("mother");
+            badWords.add("of");
+            badWords.add("dragons");
+
+            AntiSpam antiSpam = new AntiSpam();
+            antiSpam.setUsername(userData.getUsername());
+            antiSpam.setAntiSpamEnabled(true);
+            antiSpam.setBadWords(badWords);
+            antiSpamDao.save(antiSpam);
+
+            approveTaskSubmitter.submitTask(user, 12);
+            antiSpamTaskSubmitter.submitTask(user);
+        } else if(user.getToken() == null) {
+            log.info("Token updated for user " + user.getUsername());
             user.setToken(accessToken);
             userDao.update(user);
+
+            AutoApprove autoApprove = autoApproveDao.getAutoApprove(user);
+            if(autoApprove.isAutoApproveEnabled()) {
+                approveTaskSubmitter.submitTask(user, autoApprove.getPeriod());
+            }
+
+            if(antiSpamDao.isAntiSpamEnabled(user)) {
+                antiSpamTaskSubmitter.submitTask(user);
+            }
         }
 
         return "redirect:/profile";

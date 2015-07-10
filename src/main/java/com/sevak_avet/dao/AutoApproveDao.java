@@ -10,14 +10,12 @@ import java.time.LocalTime;
  * Date: 15.05.2015
  * Time: 11:05
  */
-public interface AutoApproveDao {
+public interface AutoApproveDao extends AbstractDao<AutoApprove> {
     AutoApprove getAutoApprove(User user);
 
     AutoApprove getAutoApprove(String username);
 
     Integer getUserPeriod(User user);
 
-    void save(AutoApprove autoApprove);
-
-    void update(AutoApprove autoApprove);
+    Boolean isAutoApproveEnabled(User user);
 }
