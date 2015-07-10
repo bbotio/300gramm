@@ -64,6 +64,8 @@ public class ApproveController {
         }
 
         List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
+        params.addAttribute("requestedCount", userRequestedBy.isEmpty() ? "" : userRequestedBy.size());
+
         if (userRequestedBy.isEmpty()) {
             params.addAttribute("haveNoUsersRequestedBy", "You have no users to accept!");
         } else {

@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="profile">Profile</a></li>
-                <li class="active"><a href="requests">Requests</a></li>
+                <li class="active"><a href="requests">Requests <span class="badge">${requestedCount}</span></a></li>
                 <li><a href="antispam">Antispam</a></li>
                 <li><a href="logout">Logout</a></li>
             </ul>

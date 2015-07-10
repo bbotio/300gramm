@@ -50,6 +50,9 @@ public class AntispamController {
         UserInfoData data = instagram.getCurrentUserInfo().getData();
         AntiSpam antiSpam = antiSpamDao.getAntiSpam(data.getUsername());
 
+        List<UserFeedData> userRequestedBy = instagram.getUserRequestedBy().getUserList();
+        params.addAttribute("requestedCount", userRequestedBy.isEmpty() ? "" : userRequestedBy.size());
+
         if(antiSpam.isAntiSpamEnabled()) {
             params.addAttribute("isAntiSpamEnabled", "checked");
         } else {
