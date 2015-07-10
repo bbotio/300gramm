@@ -53,7 +53,7 @@ public class AntiSpamTaskSubmitter {
     }
 
     public void submitTask(User user) {
-        ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(() -> {
+        /*ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(() -> {
             try {
                 Instagram instagram = new Instagram(user.getToken());
                 Set<String> badWords = antiSpamDao.getBadWords(user);
@@ -89,7 +89,7 @@ public class AntiSpamTaskSubmitter {
             }
         }, 0, 1, TimeUnit.HOURS);
 
-        tasks.put(user.getUsername(), future);
+        tasks.put(user.getUsername(), future);*/
     }
 
 

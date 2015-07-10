@@ -46,12 +46,10 @@
 
     <!--TaskSubmitters-->
     <bean class="com.sevak_avet.scheduler.ApproveTaskSubmitter" init-method="init"/>
-
-    <!--TODO: uncomment these beans when get required permissions (delete comments)-->
-    <!--<bean class="com.sevak_avet.scheduler.AntiSpamTaskSubmitter" init-method="init"/>-->
+    <bean class="com.sevak_avet.scheduler.AntiSpamTaskSubmitter" init-method="init"/>
 
     <!--Lucene Morphologies-->
-    <!--<bean name="russianLuceneMorphology" class="org.apache.lucene.morphology.russian.RussianLuceneMorphology"/>
-    <bean name="englishLuceneMorphology" class="org.apache.lucene.morphology.english.EnglishLuceneMorphology"/>-->
+    <bean name="russianLuceneMorphology" class="org.apache.lucene.morphology.russian.RussianLuceneMorphology"/>
+    <bean name="englishLuceneMorphology" class="org.apache.lucene.morphology.english.EnglishLuceneMorphology"/>
 
 </beans>
