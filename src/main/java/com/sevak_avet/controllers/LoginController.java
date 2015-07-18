@@ -2,12 +2,15 @@ package com.sevak_avet.controllers;
 
 import com.sevak_avet.dao.AntiSpamDao;
 import com.sevak_avet.dao.AutoApproveDao;
+import com.sevak_avet.dao.BlacklistDao;
 import com.sevak_avet.dao.UserDao;
 import com.sevak_avet.domain.AntiSpam;
 import com.sevak_avet.domain.AutoApprove;
+import com.sevak_avet.domain.Blacklist;
 import com.sevak_avet.domain.User;
 import com.sevak_avet.scheduler.AntiSpamTaskSubmitter;
 import com.sevak_avet.scheduler.ApproveTaskSubmitter;
+import com.sevak_avet.scheduler.BlacklistTaskSubmitter;
 import org.apache.log4j.Logger;
 import org.jinstagram.Instagram;
 import org.jinstagram.auth.InstagramAuthService;
@@ -58,10 +61,16 @@ public class LoginController {
     private AntiSpamDao antiSpamDao;
 
     @Autowired
+    private BlacklistDao blacklistDao;
+
+    @Autowired
     private ApproveTaskSubmitter approveTaskSubmitter;
 
     @Autowired
     private AntiSpamTaskSubmitter antiSpamTaskSubmitter;
+
+    @Autowired
+    private BlacklistTaskSubmitter blacklistTaskSubmitter;
 
     @RequestMapping(method = RequestMethod.GET)
     public String login(HttpSession session, ModelMap params) {
@@ -126,8 +135,14 @@ public class LoginController {
             antiSpam.setBadWords(badWords);
             antiSpamDao.save(antiSpam);
 
+            Blacklist blacklist = new Blacklist();
+            blacklist.setUsername(userData.getUsername());
+            blacklist.setBlacklist(new HashSet<>());
+            blacklistDao.update(blacklist);
+
             approveTaskSubmitter.submitTask(user, 12);
             antiSpamTaskSubmitter.submitTask(user);
+            blacklistTaskSubmitter.submitTask(user);
         } else if(user.getToken() == null) {
             log.info("Token updated for user " + user.getUsername());
             user.setToken(accessToken);
@@ -140,6 +155,10 @@ public class LoginController {
 
             if(antiSpamDao.isAntiSpamEnabled(user)) {
                 antiSpamTaskSubmitter.submitTask(user);
+            }
+
+            if(!blacklistDao.isEmpty(user)) {
+                blacklistTaskSubmitter.submitTask(user);
             }
         }
 

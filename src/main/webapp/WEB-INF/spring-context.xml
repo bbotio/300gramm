@@ -43,10 +43,12 @@
     <bean name="userDao" class="com.sevak_avet.dao.impl.UserDaoImpl"/>
     <bean name="autoApproveDao" class="com.sevak_avet.dao.impl.AutoApproveDaoImpl"/>
     <bean name="antiSpamDao" class="com.sevak_avet.dao.impl.AntiSpamDaoImpl"/>
+    <bean name="blacklistDao" class="com.sevak_avet.dao.impl.BlacklistDaoImpl"/>
 
     <!--TaskSubmitters-->
     <bean class="com.sevak_avet.scheduler.ApproveTaskSubmitter" init-method="init"/>
     <bean class="com.sevak_avet.scheduler.AntiSpamTaskSubmitter" init-method="init"/>
+    <bean class="com.sevak_avet.scheduler.BlacklistTaskSubmitter" init-method="init"/>
 
     <!--Lucene Morphologies-->
     <bean name="russianLuceneMorphology" class="org.apache.lucene.morphology.russian.RussianLuceneMorphology"/>
