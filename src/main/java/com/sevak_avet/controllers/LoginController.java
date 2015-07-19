@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 /**
  * Created by Avetisyan Sevak
@@ -138,7 +139,7 @@ public class LoginController {
             Blacklist blacklist = new Blacklist();
             blacklist.setUsername(userData.getUsername());
             blacklist.setBlacklist(new HashSet<>());
-            blacklistDao.update(blacklist);
+            blacklistDao.save(blacklist);
 
             approveTaskSubmitter.submitTask(user, 12);
             antiSpamTaskSubmitter.submitTask(user);

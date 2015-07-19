@@ -44,13 +44,24 @@ public class BlacklistDaoImpl implements BlacklistDao {
     }
 
     @Override
+    public Set<String> getBlackListSet(String username) {
+        return getBlacklist(username).getBlacklist();
+    }
+
+    @Override
     public Set<String> getBlackListSet(User user) {
-        return getBlacklist(user).getBlacklist();
+        return getBlackListSet(user.getUsername());
     }
 
     @Override
     public boolean isEmpty(User user) {
-        return getBlacklist(user).getBlacklist().isEmpty();
+        return isEmpty(user.getUsername());
+    }
+
+    @Override
+    public boolean isEmpty(String username) {
+        Blacklist blacklist = getBlacklist(username);
+        return blacklist == null || blacklist.getBlacklist().isEmpty();
     }
 
     @Override

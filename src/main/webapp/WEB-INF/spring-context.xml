@@ -26,6 +26,7 @@
                 <value>com.sevak_avet.domain.User</value>
                 <value>com.sevak_avet.domain.AutoApprove</value>
                 <value>com.sevak_avet.domain.AntiSpam</value>
+                <value>com.sevak_avet.domain.Blacklist</value>
             </list>
         </property>
         <property name="hibernateProperties" ref="hibernateProperties"/>
