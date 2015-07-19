@@ -55,14 +55,45 @@
                         </div>
                     </td>
                     <td>
-                        <span class="label label-danger" style="visibility: ${visibility}; align-content: center">${errorMessage}</span>
+                        <span class="label label-danger"
+                              style="visibility: ${visibility}; align-content: center">${errorMessage}</span>
                     </td>
                 </tr>
             </table>
 
             <button type="submit" class="btn btn-primary" name="saveAntiSpam">Save</button>
         </form>
+        <hr>
+
+        <form method="post">
+            <div class="input-group" style="margin-bottom: 20px;">
+                <input type="text" class="form-control" name="black_list_input" placeholder="Add user to blacklist...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" name="addToBlackList">Add</button>
+            </span>
+            </div>
+        </form>
+
+        <p>${haveNoUsersInBlackList}</p>
+        <div class="list-group">
+            <c:forEach items="${blacklist}" var="blackListUser">
+                <form method="post">
+                    <input type="hidden" name="blackListUserName" value="${blackListUser}"/>
+
+                    <a href="#" class="list-group-item">
+                        ${blackListUser}
+                     <span class="pull-right">
+                        <button class="btn btn-xs btn-warning" type="submit" name="removeFromBlackList">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </span>
+                    </a>
+                </form>
+            </c:forEach>
+        </div>
+
     </div>
     <hr>
+
 
 <jsp:include page="common/footer.jsp"/>
